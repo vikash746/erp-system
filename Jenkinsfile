@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
-        DOCKER_IMAGE = "yourdockerhub/erp-backend:${env.BUILD_ID}"
-        DOCKER_LATEST = "yourdockerhub/erp-backend:latest"
+        DOCKER_IMAGE = "vik0408/erp-backend:${env.BUILD_ID}"
+        DOCKER_LATEST = "vik0408/erp-backend:latest"
         KUBECONFIG_ID = 'kubeconfig'
     }
 
