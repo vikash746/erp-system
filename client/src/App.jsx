@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import PurchaseOrders from './pages/PurchaseOrders';
 import Vendors from './pages/Vendors';
+import Alerts from './pages/Alerts';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = React.useContext(AuthContext);
@@ -23,6 +24,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="orders" element={<PurchaseOrders />} />
             <Route path="vendors" element={<Vendors />} />
+            <Route path="alerts" element={<Alerts />} />
           </Route>
         </Routes>
       </Router>

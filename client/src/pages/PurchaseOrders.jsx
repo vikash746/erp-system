@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { AuthContext } from '../context/AuthContext';
 import { FileText, Plus, Search, Filter } from 'lucide-react';
 
@@ -10,9 +10,7 @@ const PurchaseOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-        const { data } = await axios.get('http://localhost:5000/api/orders', config);
+        const { data } = await api.get('/orders');
         setOrders(data);
       } catch (error) {
         console.error("Error fetching orders", error);
