@@ -5,7 +5,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "vik0408/erp-backend:${env.BUILD_ID}"
         DOCKER_LATEST = "vik0408/erp-backend:latest"
-        KUBECONFIG_ID = 'kubeconfig'
+        KUBECONFIG_ID = "/root/.kube/config"
     }
 
     stages {
