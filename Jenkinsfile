@@ -40,16 +40,14 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                withKubeConfig([credentialsId: "${KUBECONFIG_ID}"]) {
 
-                    sh "kubectl apply -f k8s/"
+stage('Deploy to Kubernetes') {
+    steps {
+        sh 'kubectl apply -f k8s/'
+    }
+}
 
-                    sh "kubectl set image deployment/erp-backend erp-backend=${env.DOCKER_IMAGE}"
-                }
-            }
-        }
+
     }
 
     post {
