@@ -15,6 +15,21 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Prometheus metrics middleware
+const promBundle = require("express-prom-bundle");
+const metricsMiddleware = promBundle({
+  includeMethod: true, 
+  includePath: true, 
+  includeStatusCode: true, 
+  includeUp: true,
+  customLabels: {project_name: 'erp_system'},
+  promClient: {
+    collectDefaultMetrics: {
+    }
+  }
+});
+app.use(metricsMiddleware);
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/vendors', vendorRoutes);

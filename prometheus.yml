@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'erp_backend_local'
+    static_configs:
+      - targets: ['backend:5000']
+
+  - job_name: 'erp_backend_render'
+    scheme: https
+    static_configs:
+      - targets: ['erp-system-kyup.onrender.com']
