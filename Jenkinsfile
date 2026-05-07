@@ -1,14 +1,15 @@
+
 pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         DOCKER_IMAGE = "vik0408/erp-backend:${env.BUILD_ID}"
         DOCKER_LATEST = "vik0408/erp-backend:latest"
         KUBECONFIG_ID = 'kubeconfig'
     }
 
     stages {
+
         stage('Clone Repository') {
             steps {
                 checkout scm
@@ -19,7 +20,7 @@ pipeline {
             steps {
                 dir('server') {
                     script {
-                        dockerImage = docker.build("${env.DOCKER_IMAGE}")
+                        def dockerImage = docker.build("${env.DOCKER_IMAGE}")
                         docker.build("${env.DOCKER_LATEST}")
                     }
                 }
@@ -29,8 +30,10 @@ pipeline {
         stage('Push to DockerHub') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKERHUB_CREDENTIALS}") {
-                        dockerImage.push()
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials') {
+
+                        docker.image("${env.DOCKER_IMAGE}").push()
+
                         docker.image("${env.DOCKER_LATEST}").push()
                     }
                 }
@@ -40,8 +43,10 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 withKubeConfig([credentialsId: "${KUBECONFIG_ID}"]) {
-                    sh "kubectl set image deployment/erp-backend erp-backend=${env.DOCKER_IMAGE}"
+
                     sh "kubectl apply -f k8s/"
+
+                    sh "kubectl set image deployment/erp-backend erp-backend=${env.DOCKER_IMAGE}"
                 }
             }
         }
@@ -51,11 +56,14 @@ pipeline {
         always {
             cleanWs()
         }
+
         success {
             echo "Deployment successful!"
         }
+
         failure {
             echo "Deployment failed."
         }
     }
 }
+

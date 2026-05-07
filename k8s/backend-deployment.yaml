@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: erp-backend
-        image: yourdockerhub/erp-backend:latest
+        image: vik0408/erp-backend:latest
         ports:
         - containerPort: 5000
         env:
