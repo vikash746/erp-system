@@ -45,7 +45,7 @@ pipeline {
 stage('Deploy to Kubernetes') {
     steps {
         sh '''
-        export KUBECONFIG=/root/.kube/config
+        export KUBECONFIG=/var/jenkins_home/.kube/config
         kubectl cluster-info
         kubectl get nodes
         kubectl apply -f k8s/ --validate=false
