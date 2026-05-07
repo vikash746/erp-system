@@ -41,11 +41,19 @@ pipeline {
         }
 
 
+
 stage('Deploy to Kubernetes') {
     steps {
-        sh 'kubectl apply -f k8s/ --validate=false'
+        sh '''
+        export KUBECONFIG=/root/.kube/config
+        kubectl cluster-info
+        kubectl get nodes
+        kubectl apply -f k8s/ --validate=false
+        '''
     }
 }
+
+
 
 
     }
